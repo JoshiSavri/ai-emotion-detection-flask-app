@@ -1,34 +1,18 @@
-# 2a_emotion_detection.py
+# emotion_detection.py
 
-from ibm_watson import NaturalLanguageUnderstandingV1
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_watson.natural_language_understanding_v1 import Features, EmotionOptions
+import requests
 
 def emotion_detector(text_to_analyze):
-    """
-    This function analyzes the input text and returns detected emotions.
-    """
+    url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
 
-    if not text_to_analyze:
-        return {
-            "error": "Invalid input"
-        }
+    headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
 
-    try:
-        # Replace with your actual API key and URL
-        authenticator = IAMAuthenticator('YOUR_API_KEY')
-        nlu = NaturalLanguageUnderstandingV1(
-            version='2021-08-01',
-            authenticator=authenticator
-        )
-        nlu.set_service_url('YOUR_URL')
+    json_data = { "raw_document": { "text": text_to_analyze } }
 
-        response = nlu.analyze(
-            text=text_to_analyze,
-            features=Features(emotion=EmotionOptions())
-        ).get_result()
+    response = requests.post(url, headers=headers, json=json_data)
 
-        emotions = response["emotion"]["document"]["emotion"]
+    if response.status_code == 200:
+        emotions = response.json()["emotionPredictions"][0]["emotion"]
 
         return {
             "sadness": emotions["sadness"],
@@ -39,7 +23,12 @@ def emotion_detector(text_to_analyze):
             "dominant_emotion": max(emotions, key=emotions.get)
         }
 
-    except Exception as e:
+    else:
         return {
-            "error": str(e)
+            "sadness": None,
+            "joy": None,
+            "fear": None,
+            "disgust": None,
+            "anger": None,
+            "dominant_emotion": None
         }
