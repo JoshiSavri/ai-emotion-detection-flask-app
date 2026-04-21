@@ -1,32 +1,55 @@
-# AI Emotion Detection Web App
+# Final Project
 
-This project is a web application that detects emotions from text using IBM Watson NLP.
+## AI Emotion Detection Web Application
 
-## Features
-- Detects emotions (joy, sadness, anger, fear, disgust)
-- Returns dominant emotion
-- Flask-based web API
+This project is part of the Final Project for the course. It implements an AI-based web application that detects emotions from text using Watson NLP.
 
-## Technologies Used
+---
+
+## 📌 Features
+
+- Detects emotions from input text:
+  - Joy
+  - Sadness
+  - Anger
+  - Fear
+  - Disgust
+- Identifies the dominant emotion
+- Web API built using Flask
+- Error handling for invalid input
+- Unit testing included
+- Static code analysis using pylint
+
+---
+
+## 🛠️ Technologies Used
+
 - Python
 - Flask
-- IBM Watson NLP
+- Requests Library
+- Watson NLP API
 - unittest
 - pylint
 
-## How to Run
-1. Install dependencies:
-   pip install -r requirements.txt
+---
 
-2. Run the app:
-   python app.py
+## 🚀 How It Works
 
-## Example Output
+1. User sends text input
+2. Application sends request to Watson NLP API
+3. API returns emotion scores
+4. Application processes and returns formatted output
+
+---
+
+## 📊 Example Output
+
+```json
 {
-  "joy": 0.85,
   "sadness": 0.02,
-  "anger": 0.05,
+  "joy": 0.90,
   "fear": 0.03,
-  "disgust": 0.05,
+  "disgust": 0.01,
+  "anger": 0.04,
   "dominant_emotion": "joy"
 }
